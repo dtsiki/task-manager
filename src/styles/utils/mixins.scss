@@ -1,3 +1,4 @@
+/* stylelint-disable declaration-no-important */
 @mixin visually-hidden {
   position: absolute;
   overflow: hidden;
@@ -6,4 +7,10 @@
   height: 1px;
   white-space: nowrap;
   clip-path: inset(50%);
+}
+
+@mixin set-svg($size, $color) {
+  width: $size !important;
+  height: $size !important;
+  color: $color;
 }

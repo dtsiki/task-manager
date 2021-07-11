@@ -14,7 +14,6 @@ const Button: React.FC<Props> = ({ children, onClick, buttonClassName, variant }
     <button
       onClick={onClick}
       className={`button button--${variant || 'primary'} ${buttonClassName ? ` ${buttonClassName}` : ''}`}
-
     >
       {children}
     </button>

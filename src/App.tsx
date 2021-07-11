@@ -1,10 +1,13 @@
 import React from 'react';
 
+import Dashboard from './components/common/Dashboard';
+import Main from './components/pages/Main';
+
 const App: React.FC = () => {
   return (
-    <div className="wrapper">
-      <h1>Hello</h1>
-    </div>
+    <Dashboard>
+      <Main />
+    </Dashboard>
   );
 }
 
