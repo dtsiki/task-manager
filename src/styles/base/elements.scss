@@ -45,3 +45,7 @@ body {
   color: $color--black;
   background-color: $color--white;
 }
+
+.visually-hidden {
+  @include visually-hidden;
+}

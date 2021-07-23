@@ -6,19 +6,3 @@
   align-items: flex-start;
   margin: 20px 0;
 }
-
-.board {
-  background-color: $color--white-darker;
-  width: 350px;
-  padding: 20px;
-  border-radius: 5px;
-
-  + .board {
-    margin-left: 10px;
-  }
-
-  &:hover,
-  &:focus {
-    box-shadow: 0 3px 0px 0 rgb(138, 43, 226);
-  }
-}
