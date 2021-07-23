@@ -49,7 +49,7 @@ const Input: React.FC<Props> = ({
         id={inputName}
         placeholder={placeholder}
         value={value}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => onChange(e.target.name, e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => onChange(e.target.value, e.target.name)}
       />
     </div>
   );
