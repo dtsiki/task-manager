@@ -6,9 +6,9 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const Dashboard: React.FC<Props> = ({ children }) => {
+const Dashboard: React.FC<Props> = ({ children }: Props) => {
   return (
-    <div className="dashboard">{children}</div>
+    <div className='dashboard'>{children}</div>
   );
 };
 

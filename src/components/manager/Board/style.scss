@@ -4,17 +4,27 @@
 .board {
   position: relative;
   background-color: $color--white-darker;
-  width: 350px;
+  min-width: 350px;
+  max-width: 350px;
   padding: 20px;
   border-radius: 5px;
 
   + .board {
-    margin-left: 10px;
+    margin-left: 20px;
+  }
+
+  &--selected {
+    background-color: $color--grey-lighter;
   }
 
   &:hover,
   &:focus {
     box-shadow: 0 3px 0px 0 rgb(138, 43, 226);
+    cursor: grab;
+  }
+
+  &--initial {
+    cursor: default !important;
   }
 
   &__button {
@@ -44,5 +54,84 @@
         color: $color--white;
       }
     }
+
+    &--edit {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 30px;
+      width: calc(100% - 30px);
+      background-color: transparent;
+      opacity: 0.5;
+      border: 0;
+      cursor: pointer;
+      z-index: 0;
+
+      &:hover,
+      &:focus {
+        background-color: transparent;
+      }
+    }
+  }
+
+  &-settings {
+    position: absolute;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+
+    &__toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      border: 0;
+      background-color: transparent;
+      cursor: pointer;
+      z-index: 1;
+      padding: 0;
+      min-width: 20px;
+
+      &:hover,
+      &:focus {
+        background-color: transparent;
+
+        svg {
+          color: $color--black;
+        }
+      }
+
+      svg {
+        color: $color--violet;
+      }
+    }
+  }
+
+  &__header {
+    position: relative;
+    background-color: transparent;
+    margin-bottom: 20px;
+  }
+
+  &__tasks {
+    margin-bottom: 20px;
+  }
+}
+
+.task {
+  padding: 15px;
+  background-color: $color--grey-lighter;
+  border-radius: 5px;
+
+  &:hover,
+  &:focus {
+    background-color: $color--white;;
+  }
+
+  + .task {
+    margin-top: 5px;
   }
 }

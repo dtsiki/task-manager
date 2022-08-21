@@ -1,11 +1,11 @@
-export interface IBoardItem {
-    id: number,
-    label: string,
-    isChecked: boolean,
-};
-
+export interface ITask {
+  id: number;
+  boardId: number;
+  title: string;
+  isCompleted: boolean;
+}
 export interface IBoard {
-    id: number,
-    title: string,
-    items: IBoardItem[],
-};
+  id: number;
+  title: string;
+  order: number;
+}

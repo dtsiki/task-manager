@@ -10,22 +10,35 @@ interface Props {
   radioClassName?: string,
   labelClassName?: string,
   checked: boolean,
-  changeValue: (value: string) => void,
+  changeValue: any,
 }
 
-const Radio:React.FC<Props> = ({ radioName, value, changeValue, label, wrapperClassName, radioClassName, labelClassName, checked }) => {
+const Radio:React.FC<Props> = ({
+  radioName,
+  value,
+  changeValue,
+  label,
+  wrapperClassName,
+  radioClassName,
+  labelClassName,
+  checked
+} : Props) => {
   return (
     <div className={`radio${wrapperClassName ? ` ${wrapperClassName}` : ''}`}>
       <input
         className={`radio__input${radioClassName ? ` ${radioClassName}` : ''}`}
-        type="radio"
+        type='radio'
         name={radioName}
         id={radioName}
         value={value}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeValue(e.target.value)}
+        onChange={
+          (e: React.ChangeEvent<HTMLInputElement>) => { return changeValue(e.target.value); }
+        }
         checked={checked}
       />
-      <label className={`radio__label${labelClassName ? ` ${labelClassName}` : ''}`} htmlFor={radioName}>
+      <label
+        className={`radio__label${labelClassName ? ` ${labelClassName}` : ''}`}
+        htmlFor={radioName}>
         {label}
       </label>
     </div>

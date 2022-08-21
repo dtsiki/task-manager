@@ -21,19 +21,19 @@ const Input: React.FC<Props> = ({
   inputClassName,
   labelClassName,
   isLabelVisuallyHidden = false,
-  type,
+  type = 'text',
   value,
   onChange,
   placeholder,
-  inputName,
+  inputName = 'input',
   label,
-  icon,
-}) => {
+  icon
+}: Props) => {
   return (
     <div
       className={`input${icon ? ' input--has-icon' : ''}${wrapperInputClassName ? ` ${wrapperInputClassName}` : ''}`}
     >
-      {icon && <div className="input__icon">{icon}</div>}
+      {icon && <div className='input__icon'>{icon}</div>}
       <label
         className={`input__label${isLabelVisuallyHidden ? ' input__label--hidden' : ''}${
           labelClassName ? ` ${labelClassName}` : ''
@@ -49,7 +49,9 @@ const Input: React.FC<Props> = ({
         id={inputName}
         placeholder={placeholder}
         value={value}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => onChange(e.target.value, e.target.name)}
+        onChange={
+          (e: React.ChangeEvent<HTMLInputElement>): void => onChange(e.target.value, e.target.name)
+        }
       />
     </div>
   );

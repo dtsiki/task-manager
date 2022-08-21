@@ -1,0 +1,46 @@
+@import '../../../styles/base/colors';
+@import '../../../styles/base/variables';
+
+.board-menu {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  width: 200px;
+
+  &--opened {
+    max-height: auto;
+    overflow: visible;
+  }
+
+  &--closed {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  &__list {
+    padding: 20px;
+    background-color: $color--white;
+    border: 1px solid $color--violet;
+    border-radius: 5px;
+  }
+
+  &__item {
+    + .board-menu__item {
+      margin-top: 10px;
+    }
+  }
+
+  &__button {
+    background-color: transparent;
+    text-align: left;
+    border: 0;
+    color: $color--black;
+    padding: 0;
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: $color--violet;
+    }
+  }
+}

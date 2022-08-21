@@ -1,6 +1,8 @@
 @import '../../../styles/base/colors';
 @import '../../../styles/base/variables';
 
-.dashboard {
-    position: relative;
+.header {
+    position: fixed;
+    width: 100%;
+    height: 100px;
 }
