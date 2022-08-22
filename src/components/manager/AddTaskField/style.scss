@@ -1,3 +1,36 @@
 @import '../../../styles/base/colors';
 @import '../../../styles/base/variables';
 
+.add-task-field {
+    &__actions {
+        display: flex;
+    }
+
+    &__button {
+        transition: 0.5s all;
+
+        &--add-new-task {
+            width: 100%;
+            text-align: center;
+            color: $color--violet-darker;
+
+            .add-task-field__icon {
+                color: $color--violet-darker;
+                margin-right: 10px;
+            }
+        }
+
+        &--add {
+            color: $color--violet;
+        }
+
+        &--cancel {
+            color: $color--black;
+        }
+
+        &:hover,
+        &:focus {
+            opacity: 0.8;
+        }
+    }
+}

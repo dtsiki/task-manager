@@ -13,7 +13,8 @@ interface Props {
   placeholder: string,
   inputName?: string,
   label: string,
-  icon?: React.ReactNode
+  icon?: React.ReactNode,
+  invertFocus?: boolean
 }
 
 const Input: React.FC<Props> = ({
@@ -27,12 +28,13 @@ const Input: React.FC<Props> = ({
   placeholder,
   inputName = 'input',
   label,
-  icon
+  icon,
+  invertFocus = false
 }: Props) => {
+  const classNames = `input${icon ? ' input--has-icon' : ''}${wrapperInputClassName ? ` ${wrapperInputClassName}` : ''}`;
+
   return (
-    <div
-      className={`input${icon ? ' input--has-icon' : ''}${wrapperInputClassName ? ` ${wrapperInputClassName}` : ''}`}
-    >
+    <div className={classNames}>
       {icon && <div className='input__icon'>{icon}</div>}
       <label
         className={`input__label${isLabelVisuallyHidden ? ' input__label--hidden' : ''}${
@@ -43,7 +45,7 @@ const Input: React.FC<Props> = ({
         {label}
       </label>
       <input
-        className={`input__field${inputClassName ? ` ${inputClassName}` : ''}`}
+        className={`input__field${inputClassName ? ` ${inputClassName}` : ''}${invertFocus ? ' input__field--inverted' : ''}`}
         type={type}
         name={inputName}
         id={inputName}

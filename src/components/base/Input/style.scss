@@ -9,13 +9,13 @@
 
   &__field {
     margin: 0 0 10px;
-    padding: 25px 30px;
+    padding: 10px 15px 10px 0;
     width: 100%;
     font-weight: normal;
-    color: $color--violet;
-    background-color: $color--white;
-    border: solid 1px $color--black;
-    border-radius: $border-radius;
+    color: $color--black;
+    border: 0;
+    background: transparent;
+    border-bottom: 1px solid $color--black;
 
     &:focus {
       color: $color--violet;
@@ -24,8 +24,21 @@
     }
 
     &::placeholder {
-      opacity: .3;
+      opacity: 0.3;
       color: $color--black;
+    }
+
+    &--inverted {
+      &:focus {
+        color: $color--white;
+        border-color: $color--white;
+        outline: none;
+      }
+
+      &::placeholder {
+        opacity: 0.3;
+        color: $color--white;
+      }
     }
   }
 

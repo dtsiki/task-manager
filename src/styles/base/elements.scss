@@ -40,7 +40,7 @@ ul {
 
 body {
   font-family: Roboto, sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1;
   color: $color--black;
   background-color: $color--white;
@@ -48,4 +48,64 @@ body {
 
 .visually-hidden {
   @include visually-hidden;
+}
+
+.button {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.5s all;
+  min-width: 150px;
+
+  &--primary {
+    color: $color--violet;
+
+    &:hover {
+      color: $color--violet-lighter;
+    }
+  }
+
+  &--secondary {
+    color: $color--black;
+
+    &:hover {
+      color: $color--grey-dark;
+    }
+  }
+
+  &--tertiary {
+    color: $color--white;
+
+    &:hover {
+      color: $color--white-violet;
+    }
+  }
+
+  &:hover {
+    background: transparent;
+  }
+
+  + .button {
+    margin-left: 10px;
+  }
+}
+
+.accent {
+  font-style: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+
+  &--light {
+    color: $color--white;
+  }
+
+  &--dark {
+    color: $color--black;
+  }
+
+  &--primary {
+    color: $color--violet;
+  }
 }

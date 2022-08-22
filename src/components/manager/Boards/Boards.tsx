@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import TasksContext from '../../../contexts/TasksContext';
 import { IBoard, ITask } from '../../../interfaces';
-import Button from '../../base/Button';
 import Input from '../../base/Input';
 import Board from '../Board';
 
@@ -84,39 +83,57 @@ const Boards: React.FC = () => {
       });
   }, [boards, deleteBoard, addTask, currentBoard, tasks]);
 
-  return (
-    <TasksContext.Provider value={{ tasks, boards, setTasks }}>
-      <ul className='boards'>
-        <li className='board board--initial'>
-          {showNewBoardField ? (
-            <div className='board__form'>
+  const renderInitialBoard = useMemo(() => {
+    return (
+      <li className='board board--initial'>
+        {showNewBoardField ? (
+          <div className='board__form'>
+            <div className='board__header'>
+              <h2 className='board__title'>
+                Create new board
+              </h2>
+            </div>
+            <div className='board__footer'>
               <Input
                 value={title}
                 onChange={changeTitle}
-                placeholder='Board title'
+                placeholder='Ented new board title'
                 label='Create new board'
+                isLabelVisuallyHidden
               />
               <div className='flex'>
-                <Button onClick={addBoard}>Add</Button>
-                <Button
+                <button
                   onClick={() => setShowNewBoardField(!showNewBoardField)}
-                  variant='secondary'
+                  className='button button--secondary'
                 >
                   Cancel
-                </Button>
+                </button>
+                <button
+                  className='button button--primary'
+                  onClick={addBoard}>
+                  Add
+                </button>
               </div>
             </div>
-          ) : (
-            <Button
-              onClick={() => setShowNewBoardField(!showNewBoardField)}
-              icon={<FontAwesomeIcon icon={faPlus} />}
-              buttonClassName='boards__button boards__button--create-new'
-            >
-              <span className='visually-hidden'>Create new board</span>
-            </Button>
-          )}
-        </li>
+          </div>
+        ) : (
+          <button
+            className='board__button board__button--create-new-board'
+            onClick={() => setShowNewBoardField(!showNewBoardField)}
+          >
+            <FontAwesomeIcon icon={faPlus} />
+            Create new board
+          </button>
+        )}
+      </li>
+    )
+  }, [showNewBoardField, title]);
+
+  return (
+    <TasksContext.Provider value={{ tasks, boards, setTasks }}>
+      <ul className='boards'>
         {renderBoards}
+        {renderInitialBoard}
       </ul>
     </TasksContext.Provider>
   );

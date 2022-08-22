@@ -1,6 +1,7 @@
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
-import Button from '../../base/Button';
 import Input from '../../base/Input';
 
 import './style.scss';
@@ -24,20 +25,34 @@ const AddTaskField: React.FC<Props> = ({ handleTask }: Props) => {
   };
 
   return (
-    <div>
+    <div className='add-task-field'>
       {showField && (
         <Input
           value={newTask}
           onChange={changeNewTaskValue}
-          placeholder='Enter new task'
+          placeholder='Enter new task, e.g.: be happy'
           label='Add new task'
+          isLabelVisuallyHidden
         />
       )}
-      <div className='flex'>
-        {showField && <Button onClick={() => addTask()}>Add</Button>}
-        <Button
-          onClick={() => setShowField(!showField)}
-          variant={showField ? 'secondary' : 'primary'}>{showField ? 'Cancel' : 'Add task'}</Button>
+      <div className='add-task-field__actions'>
+        <button
+          className={`button add-task-field__button add-task-field__button--${showField ? 'cancel' : 'add-new-task'}`}
+          onClick={() => setShowField(!showField)}>
+          {!showField && (
+            <span className='add-task-field__icon'>
+              <FontAwesomeIcon icon={faPlus} />
+            </span>
+          )}
+          {showField ? 'Cancel' : 'Add new task'}
+        </button>
+        {showField && (
+          <button
+            className='button add-task-field__button add-task-field__button--add'
+            onClick={() => addTask()}>
+            Add
+          </button>
+        )}
       </div>
     </div>
   );

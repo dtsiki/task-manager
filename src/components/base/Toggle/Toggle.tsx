@@ -3,33 +3,33 @@ import React from 'react';
 import './style.scss';
 
 interface Props {
-  radioName: any,
+  toggleName: any,
   value: any,
   label: string,
   wrapperClassName?: string,
-  radioClassName?: string,
+  toggleClassName?: string,
   labelClassName?: string,
   checked: boolean,
   changeValue: any,
 }
 
-const Radio:React.FC<Props> = ({
-  radioName,
+const Toggle:React.FC<Props> = ({
+  toggleName,
   value,
   changeValue,
   label,
   wrapperClassName,
-  radioClassName,
+  toggleClassName,
   labelClassName,
   checked
 } : Props) => {
   return (
-    <div className={`radio${wrapperClassName ? ` ${wrapperClassName}` : ''}`}>
+    <div className={`toggle${wrapperClassName ? ` ${wrapperClassName}` : ''}`}>
       <input
-        className={`radio__input${radioClassName ? ` ${radioClassName}` : ''}`}
-        type='radio'
-        name={radioName}
-        id={radioName}
+        className={`toggle__input${toggleClassName ? ` ${toggleClassName}` : ''}`}
+        type='checkbox'
+        name={toggleName}
+        id={toggleName}
         value={value}
         onChange={
           (e: React.ChangeEvent<HTMLInputElement>) => { return changeValue(e.target.value); }
@@ -37,12 +37,12 @@ const Radio:React.FC<Props> = ({
         checked={checked}
       />
       <label
-        className={`radio__label${labelClassName ? ` ${labelClassName}` : ''}`}
-        htmlFor={radioName}>
+        className={`toggle__label${labelClassName ? ` ${labelClassName}` : ''}`}
+        htmlFor={toggleName}>
         {label}
       </label>
     </div>
   );
 };
 
-export default Radio;
+export default Toggle;

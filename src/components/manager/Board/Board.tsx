@@ -1,9 +1,8 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 
 import { IBoard, ITask } from '../../../interfaces';
-import Button from '../../base/Button';
 import Input from '../../base/Input';
-import Radio from '../../base/Radio';
+import Toggle from '../../base/Toggle';
 import AddTaskField from '../AddTaskField';
 import BoardMenu from '../BoardMenu';
 import TasksContext from '../../../contexts/TasksContext';
@@ -37,10 +36,13 @@ const Board: React.FC<Props & IBoard> = ({
   const [localTitle, setLocalTitle] = useState<string>(title);
 
   const toggleItemStatus = useCallback((task: ITask) => {
+
     const updatedTasks = tasks.filter((tasksItem) => {
       if (tasksItem.id === task.id) tasksItem.isCompleted = !tasksItem.isCompleted;
       return tasksItem;
     });
+
+    console.log('toggle status', updatedTasks)
 
     setTasks(updatedTasks);
   }, [tasks, boards]);
@@ -50,6 +52,7 @@ const Board: React.FC<Props & IBoard> = ({
   };
 
   const handleDragStart = (): void => {
+    console.log('drag start')
     setCurrentBoard(id);
   };
 
@@ -114,12 +117,13 @@ const Board: React.FC<Props & IBoard> = ({
         <li
           key={itemId}
           className='board__item task'>
-          <Radio
+          <Toggle
             label={title}
             value={itemId}
             changeValue={() => toggleItemStatus(task)}
-            radioName={itemId}
+            toggleName={itemId}
             checked={isCompleted}
+            wrapperClassName='task__toggle'
           />
         </li>
       );
@@ -139,39 +143,48 @@ const Board: React.FC<Props & IBoard> = ({
         deleteBoard={deleteBoard}
         id={id} />
       <div className='board__header'>
-        <h3 className='board__title'>
-          {title}
-          {' '}
-          (#
-          {order}
-          )
-        </h3>
-        <Button
+        {!editTitle && (
+          <h3 className='board__title'>
+            {title}
+          </h3>
+        )}
+        <button
           onClick={() => setEditTitle(!editTitle)}
-          buttonClassName='board__button board__button--edit'>
-          <span className='visually-hidden'>Edit title</span>
-        </Button>
+          className='button board__button board__button--edit'>
+          <span className='visually-hidden'>
+            Edit board title
+          </span>
+        </button>
         {editTitle && (
           <div className='edit-title-field'>
             <Input
               value={localTitle}
               onChange={changeLocalTitle}
-              placeholder='Edit board title'
-              label='Edit title'
+              placeholder='Enter board title'
+              label='Edit board title'
+              invertFocus
             />
-            <Button onClick={() => updateTitle()}>Save</Button>
-            <Button
+            <button
               onClick={() => setEditTitle(false)}
-              variant='secondary'>Cancel</Button>
+              className='button button--secondary'>
+              Cancel
+            </button>
+            <button
+              className='button button--tertiary'
+              onClick={() => updateTitle()}>
+              Save
+            </button>
           </div>
         )}
       </div>
-      {tasks.length ? (
-        <ul className='board__tasks'>{renderTasks}</ul>
-      ) : (
-        <div>Board has no items</div>
-      )}
-      <div>
+      <div className='board__body'>
+        {tasks.length ? (
+          <ul className='board__tasks'>{renderTasks}</ul>
+        ) : (
+          <div className='board__note'>There are no tasks</div>
+        )}
+      </div>
+      <div className='board__footer'>
         <AddTaskField handleTask={handleTask} />
       </div>
     </li>

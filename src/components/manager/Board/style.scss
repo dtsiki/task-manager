@@ -1,13 +1,16 @@
 @import '../../../styles/base/colors';
 @import '../../../styles/base/variables';
+@import '../../../styles/utils/keyframes';
 
 .board {
   position: relative;
-  background-color: $color--white-darker;
+  background: transparent;
   min-width: 350px;
   max-width: 350px;
-  padding: 20px;
-  border-radius: 5px;
+  transition: 0.5s all;
+  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  animation: appearFromLeft 0.5s;
 
   + .board {
     margin-left: 20px;
@@ -19,42 +22,24 @@
 
   &:hover,
   &:focus {
-    box-shadow: 0 3px 0px 0 rgb(138, 43, 226);
+    opacity: 0.95;
     cursor: grab;
   }
 
   &--initial {
+    border-radius: $border-radius;
     cursor: default !important;
+
+    .board__header {
+      background: rgba($color--violet, 0.5);
+    }
+
+    .board__footer {
+      border-color: rgba($color--violet, 0.5);
+    }
   }
 
   &__button {
-    &--delete {
-      position: absolute;
-      border: 0;
-      background-color: $color--violet;
-      top: -8px;
-      right: -8px;
-      width: 20px;
-      min-width: auto;
-      height: 20px;
-      padding: 0;
-      margin: 0;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      &:hover {
-        background-color: $color--violet-darker;
-      }
-
-      svg {
-        width: 10px;
-        height: 10px;
-        color: $color--white;
-      }
-    }
-
     &--edit {
       position: absolute;
       top: 0;
@@ -71,6 +56,22 @@
       &:hover,
       &:focus {
         background-color: transparent;
+      }
+    }
+
+    &--create-new-board {
+      color: $color--black;
+      width: 100%;
+      text-align: center;
+      background: transparent;
+      border: 1px solid $color--black;
+      padding: 20px;
+      border-radius: $border-radius;
+      cursor: pointer;
+
+      svg {
+        color: $color--black;
+        margin-right: 10px;
       }
     }
   }
@@ -100,12 +101,12 @@
         background-color: transparent;
 
         svg {
-          color: $color--black;
+          color: $color--grey;
         }
       }
 
       svg {
-        color: $color--violet;
+        color: $color--white;
       }
     }
   }
@@ -113,25 +114,70 @@
   &__header {
     position: relative;
     background-color: transparent;
-    margin-bottom: 20px;
+    padding: 20px;
+    background: $color--violet;
+    border-top-right-radius: $border-radius;
+    border-top-left-radius: $border-radius;
+  }
+
+  &__title {
+    font-size: 1.2rem;
+    color: $color--white;
+  }
+
+  &__body {
+    border: 1px solid $color--violet;
   }
 
   &__tasks {
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
+  }
+
+  &__note {
+    margin: 40px 0;
+    text-align: center;
+    color: $color--grey-dark;
+  }
+
+  &__footer {
+    //background: $color--grey-lighter;
+    background: transparent;
+    border: 1px solid $color--violet;
+    border-top-color: transparent;
+    border-bottom-right-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+    padding: 20px;
+  }
+
+  &__form {
+    animation: appear 0.5s;
   }
 }
 
 .task {
-  padding: 15px;
-  background-color: $color--grey-lighter;
-  border-radius: 5px;
+  margin: 10px;
+  padding: 20px;
+  transition: 0.5s all;
+  font-size: 1rem;
+  line-height: 2rem;
+  background-color: rgba($color--grey, 0.3);
+  border-radius: $border-radius;
+
 
   &:hover,
   &:focus {
-    background-color: $color--white;;
+    background-color: $color--white-violet;
   }
 
   + .task {
-    margin-top: 5px;
+    border-top: 1px dotted $color--grey;
+  }
+
+  &__toggle {
+    .toggle__label {
+      &::before {
+        display: none;
+      }
+    }
   }
 }

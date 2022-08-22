@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Button from '../../base/Button';
-
 import './style.scss';
 
 interface Props {
@@ -20,23 +18,27 @@ const BoardMenu: React.FC<Props> = ({ id, deleteBoard }: Props) => {
 
   return (
     <nav className='board-settings'>
-      <Button
+      <button
         onClick={() => setShowMenu(!showMenu)}
-        buttonClassName='board-settings__toggle'>
+        className='board-settings__toggle'>
         <span className='visually-hidden'>{showMenu ? 'Hide' : 'Open'}</span>
         <FontAwesomeIcon icon={faEllipsisV} />
-      </Button>
+      </button>
       <div className={`board-settings__menu board-menu board-menu--${showMenu ? 'opened' : 'closed'}`}>
         <ul className='board-menu__list'>
           <li className='board-menu__item'>
-            <Button
-              buttonClassName='board-menu__button'
-              onClick={archiveBoard}>Archive board</Button>
+            <button
+              className='board-menu__button'
+              onClick={archiveBoard}>
+              Archive board
+            </button>
           </li>
           <li className='board-menu__item'>
-            <Button
-              buttonClassName='board-menu__button'
-              onClick={() => deleteBoard(id)}>Delete board</Button>
+            <button
+              className='board-menu__button'
+              onClick={() => deleteBoard(id)}>
+              Delete board
+            </button>
           </li>
         </ul>
       </div>

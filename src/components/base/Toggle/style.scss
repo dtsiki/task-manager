@@ -3,7 +3,7 @@
 @import './../../../styles/utils/breakpoints';
 @import './../../../styles/base/variables';
 
-.radio {
+.toggle {
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -38,7 +38,7 @@
     appearance: none;
 
     &:checked {
-      + .radio__label {
+      + .toggle__label {
         &::before {
           background-color: $color--violet;
           border-color: $color--violet;
