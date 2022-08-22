@@ -1,20 +1,21 @@
 @import '../../../styles/base/colors';
 @import '../../../styles/base/variables';
+@import '../../../styles/utils/keyframes';
 
 .board-menu {
   position: absolute;
   top: 25px;
   right: 0;
   width: 200px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: 0.5s all;
 
   &--opened {
     max-height: auto;
     overflow: visible;
-  }
-
-  &--closed {
-    max-height: 0;
-    overflow: hidden;
+    opacity: 1;
   }
 
   &__list {

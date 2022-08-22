@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
 import './style.scss';
 
@@ -10,21 +12,32 @@ interface Props {
 }
 
 const BoardMenu: React.FC<Props> = ({ id, deleteBoard }: Props) => {
+  const ref = useRef<HTMLElement>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const archiveBoard = (): void => {
     console.log('acrhive board');
   };
 
+  const closeBoardMenu = (): void => {
+    if (showMenu) {
+      setShowMenu(false);
+    }
+  }
+
+  useOnClickOutside(ref, () => closeBoardMenu());
+
   return (
-    <nav className='board-settings'>
+    <nav
+      ref={ref}
+      className='board-settings'>
       <button
         onClick={() => setShowMenu(!showMenu)}
         className='board-settings__toggle'>
         <span className='visually-hidden'>{showMenu ? 'Hide' : 'Open'}</span>
         <FontAwesomeIcon icon={faEllipsisV} />
       </button>
-      <div className={`board-settings__menu board-menu board-menu--${showMenu ? 'opened' : 'closed'}`}>
+      <div className={`board-settings__menu board-menu board-menu--${showMenu ? 'opened' : ''}`}>
         <ul className='board-menu__list'>
           <li className='board-menu__item'>
             <button
