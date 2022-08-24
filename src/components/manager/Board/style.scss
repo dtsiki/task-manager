@@ -1,6 +1,7 @@
 @import '../../../styles/base/colors';
 @import '../../../styles/base/variables';
 @import '../../../styles/utils/keyframes';
+@import '../../../styles/utils/mixins';
 
 .board {
   position: relative;
@@ -10,20 +11,17 @@
   transition: 0.5s all;
   border-bottom-right-radius: $border-radius;
   border-bottom-left-radius: $border-radius;
-  animation: appearFromLeft 0.5s;
-
-  + .board {
-    margin-left: 20px;
-  }
+  //animation: appear 0.5s;
+  box-shadow: 4px 4px 0 0 rgba($color--grey, 0.6);
 
   &--selected {
-    background-color: $color--grey-lighter;
+    transform: scale(0.95);
+    box-shadow: 4px 4px 0 0 rgba($color--violet, 0.4);
   }
 
   &:hover,
   &:focus {
     opacity: 0.95;
-    cursor: grab;
   }
 
   &--initial {
@@ -40,6 +38,24 @@
   }
 
   &__button {
+    &--edit-title {
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      margin-left: 5px;
+      opacity: 0.2;
+      transition: 0.5s all;
+
+      svg {
+        @include set-svg(15px, $color--grey);
+      }
+
+      &:hover,
+      &:focus {
+        background-color: transparent;
+      }
+    }
+
     &--edit {
       position: absolute;
       top: 0;
@@ -118,6 +134,20 @@
     background: $color--violet;
     border-top-right-radius: $border-radius;
     border-top-left-radius: $border-radius;
+    cursor: grab;
+  }
+
+  &__heading {
+    display: inline-flex;
+    justify-content: flex-start;
+
+    &:hover {
+      .board__button {
+        &--edit-title {
+          opacity: 1;
+        }
+      }
+    }
   }
 
   &__title {
@@ -151,33 +181,5 @@
 
   &__form {
     animation: appear 0.5s;
-  }
-}
-
-.task {
-  margin: 10px;
-  padding: 20px;
-  transition: 0.5s all;
-  font-size: 1rem;
-  line-height: 2rem;
-  background-color: rgba($color--grey, 0.3);
-  border-radius: $border-radius;
-
-
-  &:hover,
-  &:focus {
-    background-color: $color--white-violet;
-  }
-
-  + .task {
-    border-top: 1px dotted $color--grey;
-  }
-
-  &__toggle {
-    .toggle__label {
-      &::before {
-        display: none;
-      }
-    }
   }
 }

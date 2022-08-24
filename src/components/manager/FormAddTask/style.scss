@@ -1,7 +1,7 @@
 @import '../../../styles/base/colors';
 @import '../../../styles/base/variables';
 
-.add-task-field {
+.form-add-task {
     &__actions {
         display: flex;
     }
@@ -14,7 +14,7 @@
             text-align: center;
             color: $color--violet-darker;
 
-            .add-task-field__icon {
+            svg {
                 color: $color--violet-darker;
                 margin-right: 10px;
             }

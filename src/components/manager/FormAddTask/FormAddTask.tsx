@@ -1,8 +1,9 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Input from '../../base/Input';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
 import './style.scss';
 
@@ -10,9 +11,11 @@ interface Props {
   handleTask: (task: string) => void,
 }
 
-const AddTaskField: React.FC<Props> = ({ handleTask }: Props) => {
+const FormAddTask: React.FC<Props> = ({ handleTask }: Props) => {
   const [newTask, setNewTask] = useState<string>('');
   const [showField, setShowField] = useState<boolean>(false);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const changeNewTaskValue = (value: string): void => {
     setNewTask(value);
@@ -24,8 +27,18 @@ const AddTaskField: React.FC<Props> = ({ handleTask }: Props) => {
     setNewTask('');
   };
 
+  const closeField = ():void => {
+    if (showField) {
+      setShowField(false);
+    }
+  };
+
+  useOnClickOutside(ref, () => closeField());
+
   return (
-    <div className='add-task-field'>
+    <div
+      ref={ref}
+      className='form-add-task'>
       {showField && (
         <Input
           value={newTask}
@@ -35,20 +48,18 @@ const AddTaskField: React.FC<Props> = ({ handleTask }: Props) => {
           isLabelVisuallyHidden
         />
       )}
-      <div className='add-task-field__actions'>
+      <div className='form-add-task__actions'>
         <button
-          className={`button add-task-field__button add-task-field__button--${showField ? 'cancel' : 'add-new-task'}`}
+          className={`button form-add-task__button form-add-task__button--${showField ? 'cancel' : 'add-new-task'}`}
           onClick={() => setShowField(!showField)}>
           {!showField && (
-            <span className='add-task-field__icon'>
-              <FontAwesomeIcon icon={faPlus} />
-            </span>
+            <FontAwesomeIcon icon={faPlus} />
           )}
           {showField ? 'Cancel' : 'Add new task'}
         </button>
         {showField && (
           <button
-            className='button add-task-field__button add-task-field__button--add'
+            className='button form-add-task__button form-add-task__button--add'
             onClick={() => addTask()}>
             Add
           </button>
@@ -58,4 +69,4 @@ const AddTaskField: React.FC<Props> = ({ handleTask }: Props) => {
   );
 };
 
-export default AddTaskField;
+export default FormAddTask;

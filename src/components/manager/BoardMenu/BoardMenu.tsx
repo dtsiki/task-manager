@@ -16,7 +16,7 @@ const BoardMenu: React.FC<Props> = ({ id, deleteBoard }: Props) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const archiveBoard = (): void => {
-    console.log('acrhive board');
+    //@todo: archive board by id
   };
 
   const closeBoardMenu = (): void => {
