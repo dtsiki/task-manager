@@ -1,14 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import TasksContext from '../../../contexts/TasksContext';
 import { IBoard, ITask } from '../../../interfaces';
 import Input from '../../base/Input';
 import Board from '../Board';
+import { DragAndDropVariant } from '../Board/Board';
 
 import './style.scss';
-import { DragAndDropVariant } from '../Board/Board';
 
 const initialBoards = [
   {
@@ -83,12 +82,12 @@ const Boards: React.FC = () => {
       order: boards.length + 1
     };
 
-    setBoards((prev) => [...prev, newBoard]);
+    setBoards((prev: Array<IBoard>) => [...prev, newBoard]);
     setTitle('');
   };
 
   const deleteBoard = useCallback((id: number) => {
-    const updatedBoards = boards.filter((board) => board.id !== id);
+    const updatedBoards = boards.filter((board: IBoard) => board.id !== id);
 
     setBoards(updatedBoards);
   }, [boards]);
@@ -100,7 +99,7 @@ const Boards: React.FC = () => {
       boardId: id
     };
 
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+    setTasks((prevTasks: Array<ITask>) => [...prevTasks, newTask]);
   }, [boards]);
 
   const sortBoards = (prevBoard: IBoard, nextBoard: IBoard): number => {
@@ -110,7 +109,7 @@ const Boards: React.FC = () => {
   };
 
   const changeTaskBoard = (taskId: number, boardId: number): void => {
-    const updatedTasks = tasks.map((task) => {
+    const updatedTasks = tasks.map((task: ITask) => {
       if (task.id === taskId) {
         const updatedTask = {
           ...task,
@@ -127,7 +126,7 @@ const Boards: React.FC = () => {
   }
 
   const sortTasks = useCallback((id: number) => {
-    return tasks.filter((task) => task.boardId === id);
+    return tasks.filter((task: ITask) => task.boardId === id);
   }, [tasks]);
 
   const renderBoards = useMemo(() => {
@@ -173,7 +172,7 @@ const Boards: React.FC = () => {
                 <Input
                   value={title}
                   onChange={changeTitle}
-                  placeholder='Ented new board title'
+                  placeholder='Enter new board title'
                   label='Create new board'
                   isLabelVisuallyHidden
                 />
@@ -207,12 +206,10 @@ const Boards: React.FC = () => {
   }, [showNewBoardField, title]);
 
   return (
-    <TasksContext.Provider value={{ tasks, boards, setTasks }}>
-      <ul className='boards'>
-        {renderBoards}
-        {renderInitialBoard}
-      </ul>
-    </TasksContext.Provider>
+    <ul className='boards'>
+      {renderBoards}
+      {renderInitialBoard}
+    </ul>
   );
 };
 

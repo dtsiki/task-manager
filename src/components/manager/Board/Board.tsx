@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
@@ -6,7 +6,6 @@ import { IBoard, ITask } from '../../../interfaces';
 import Input from '../../base/Input';
 import FormAddTask from '../FormAddTask';
 import BoardMenu from '../BoardMenu';
-import TasksContext from '../../../contexts/TasksContext';
 import Task from '../Task';
 
 import './style.scss';
@@ -49,7 +48,6 @@ const Board: React.FC<Props & IBoard> = ({
   dragAndDrop,
   setDragAndDrop
 }: Props & IBoard) => {
-  const { setTasks } = useContext(TasksContext);
   const [editTitle, setEditTitle] = useState<boolean>(false);
   const [localTitle, setLocalTitle] = useState<string>(title);
 
