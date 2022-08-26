@@ -71,7 +71,6 @@ export interface Events {
   'deleteAllTasks': undefined,
   'setBoards': Array<IBoard>,
   'setTasks': Array<ITask>,
-  'archiveBoard': number,
   'dropTaskToBoard': { taskId: number, boardId: number }
 }
 
@@ -86,7 +85,6 @@ export enum ManagerEvent {
   DELETE_ALL_BOARDS = 'deleteAllBoards',
   SET_BOARDS = 'setBoards',
   SET_TASKS = 'setTasks',
-  ARCHIVE_BOARD = 'archiveBoard',
   DROP_TASK_TO_BOARD = 'dropTaskToBoard'
 }
 
@@ -116,17 +114,6 @@ export const manager: StoreonModule<State, Events> = (store) => {
   store.on(ManagerEvent.DELETE_BOARD, (state, event) => ({
     boards: state.boards.filter((board) => board.id !== event)
   }));
-
-  store.on(ManagerEvent.ARCHIVE_BOARD, (state, event) => {
-    return {
-      boards: state.boards.map((board) => {
-        return board.id === event ? {
-          ...board,
-          isArchived: !board.isArchived
-        } : board
-      })
-    }
-  });
 
   store.on(ManagerEvent.SET_TASKS, (_, event) => ({
     tasks: event
