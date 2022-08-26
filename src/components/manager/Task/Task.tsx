@@ -1,8 +1,10 @@
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
+import { useStoreon } from 'storeon/react';
 
 import { ITask } from '../../../interfaces';
+import { ManagerEvent } from '../../../store/manager';
 import Input from '../../base/Input';
 
 import './style.scss';
@@ -12,8 +14,9 @@ interface Props {
 }
 
 const Task: React.FC<Props> = ({ task }: Props) => {
-  const { id, title } = task;
+  const { title } = task;
 
+  const { dispatch } = useStoreon('tasks');
   const [editTask, setEditTask] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>(title);
 
@@ -22,7 +25,16 @@ const Task: React.FC<Props> = ({ task }: Props) => {
   };
 
   const updateTask = (): void => {
-    //update task by id
+    const updatedTask: ITask = {
+      ...task,
+      title: newTitle
+    };
+
+    dispatch(ManagerEvent.UPDATE_TASK, updatedTask);
+  };
+
+  const deleteTask = (): void => {
+    dispatch(ManagerEvent.DELETE_TASK, task);
   };
 
   return (
@@ -49,6 +61,11 @@ const Task: React.FC<Props> = ({ task }: Props) => {
             isLabelVisuallyHidden
           />
           <div className='task__actions'>
+            <button
+              onClick={() => deleteTask()}
+              className='button button--secondary'>
+              Delete
+            </button>
             <button
               onClick={() => setEditTask(!editTask)}
               className='button button--secondary'>

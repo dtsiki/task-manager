@@ -58,6 +58,7 @@ body {
   cursor: pointer;
   transition: 0.5s all;
   min-width: 150px;
+  box-sizing: border-box;
 
   &--primary {
     color: $color--violet;

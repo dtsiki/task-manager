@@ -1,29 +1,45 @@
 import React, { useRef, useState } from 'react';
+import { useStoreon } from 'storeon/react';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import { ManagerEvent } from '../../../store/manager';
+import { IBoard } from '../../../interfaces';
 
 import './style.scss';
 
 interface Props {
-  deleteBoard: (id: number) => void,
-  id: number,
+  board: IBoard
 }
 
-const BoardMenu: React.FC<Props> = ({ id, deleteBoard }: Props) => {
-  const ref = useRef<HTMLElement>(null);
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+const BoardMenu: React.FC<Props> = ({ board }: Props) => {
+  const { dispatch } = useStoreon();
 
-  const archiveBoard = (): void => {
-    //@todo: archive board by id
+  const { id, isArchived } = board;
+
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const ref = useRef<HTMLElement>(null);
+
+  const toggleArchive = (): void => {
+    const updatedBoard = {
+      ...board,
+      isArchived: !isArchived
+    };
+
+    dispatch(ManagerEvent.UPDATE_BOARD, updatedBoard);
+    closeBoardMenu();
+  };
+
+  const deleteBoard = (): void => {
+    dispatch(ManagerEvent.DELETE_BOARD, id);
   };
 
   const closeBoardMenu = (): void => {
     if (showMenu) {
       setShowMenu(false);
     }
-  }
+  };
 
   useOnClickOutside(ref, () => closeBoardMenu());
 
@@ -42,14 +58,14 @@ const BoardMenu: React.FC<Props> = ({ id, deleteBoard }: Props) => {
           <li className='board-menu__item'>
             <button
               className='board-menu__button'
-              onClick={archiveBoard}>
-              Archive board
+              onClick={toggleArchive}>
+              {isArchived ? 'Unarchive board' : 'Archive board'}
             </button>
           </li>
           <li className='board-menu__item'>
             <button
               className='board-menu__button'
-              onClick={() => deleteBoard(id)}>
+              onClick={deleteBoard}>
               Delete board
             </button>
           </li>

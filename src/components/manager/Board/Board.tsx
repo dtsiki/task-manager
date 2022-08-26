@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useStoreon } from 'storeon/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,6 +8,7 @@ import Input from '../../base/Input';
 import FormAddTask from '../FormAddTask';
 import BoardMenu from '../BoardMenu';
 import Task from '../Task';
+import { ManagerEvent } from '../../../store/manager';
 
 import './style.scss';
 
@@ -17,57 +19,41 @@ export enum DragAndDropVariant {
 }
 
 interface Props {
-  deleteBoard: (id: number) => void,
-  addTask: (id: number, task: string) => void,
-  setCurrentBoard: (id: number) => void,
-  currentBoard: number,
-  setBoards: React.Dispatch<React.SetStateAction<any>>,
-  boards: Array<IBoard>,
+  board: IBoard,
   tasks: Array<ITask>,
-  changeTaskBoard: (taskId: number, boardId: number) => void,
+  selectedBoard: number,
+  setSelectedBoard: (id: number) => void,
   selectedTask: number,
   setSelectedTask: (id: number) => void,
   dragAndDrop: DragAndDropVariant,
-  setDragAndDrop: (variant: DragAndDropVariant) => void
+  setDragAndDrop: (variant: DragAndDropVariant) => void,
 }
 
-const Board: React.FC<Props & IBoard> = ({
-  id,
-  title,
+const Board: React.FC<Props> = ({
+  board,
   tasks,
-  order,
-  currentBoard,
-  boards,
-  setBoards,
-  deleteBoard,
-  addTask,
-  setCurrentBoard,
-  changeTaskBoard,
+  selectedBoard,
+  setSelectedBoard,
   selectedTask,
   setSelectedTask,
   dragAndDrop,
   setDragAndDrop
-}: Props & IBoard) => {
+}: Props) => {
+  const { dispatch, boards } = useStoreon('boards');
+  const { id, title } = board;
+
   const [editTitle, setEditTitle] = useState<boolean>(false);
   const [localTitle, setLocalTitle] = useState<string>(title);
 
-  const getOrderById = (boardId: number): number => {
-    const result = boards.find((board) => board.id === boardId);
+  const getBoardOrderById = (boardId: number): number => {
+    const result = boards.find((item: IBoard) => item.id === boardId);
 
-    if (result) {
-      return result.order;
-    }
-
-    return 0;
-  };
-
-  const handleTask = (task: string): void => {
-    addTask(id, task);
+    return result ? result.order : 0;
   };
 
   const handleDragBoardStart = (): void => {
     setDragAndDrop(DragAndDropVariant.BOARD);
-    setCurrentBoard(id);
+    setSelectedBoard(id);
   };
 
   const handleDragTaskStart = (taskId: number): void => {
@@ -77,7 +63,7 @@ const Board: React.FC<Props & IBoard> = ({
 
   const handleDragEnd = (): void => {
     if (dragAndDrop === DragAndDropVariant.BOARD) {
-      setCurrentBoard(0);
+      setSelectedBoard(0);
     }
 
     if (dragAndDrop === DragAndDropVariant.TASK) {
@@ -93,28 +79,31 @@ const Board: React.FC<Props & IBoard> = ({
     e.preventDefault();
 
     if (dragAndDrop === DragAndDropVariant.BOARD) {
-      if (id === currentBoard) return;
+      if (id === selectedBoard) return;
 
       const updatedBoards = [...boards];
 
-      const currentOrder = getOrderById(currentBoard);
-      const prevOrder = getOrderById(id);
+      const currentOrder = getBoardOrderById(selectedBoard);
+      const prevOrder = getBoardOrderById(id);
 
-      updatedBoards.forEach((board) => {
-        if (board.id === currentBoard) {
-          board.order = prevOrder;
+      updatedBoards.forEach((item: IBoard) => {
+        if (item.id === selectedBoard) {
+          item.order = prevOrder;
         }
 
-        if (board.id === id) {
-          board.order = currentOrder;
+        if (item.id === id) {
+          item.order = currentOrder;
         }
       });
 
-      setBoards(updatedBoards);
+      dispatch(ManagerEvent.SET_BOARDS, updatedBoards)
     }
 
     if (dragAndDrop === DragAndDropVariant.TASK) {
-      changeTaskBoard(selectedTask, Number(e.currentTarget.id))
+      dispatch(ManagerEvent.DROP_TASK_TO_BOARD, {
+        taskId: selectedTask,
+        boardId: Number(e.currentTarget.id)
+      });
     }
   };
 
@@ -126,26 +115,22 @@ const Board: React.FC<Props & IBoard> = ({
     setEditTitle(false);
   };
 
-  const archiveBoard = (): void  => {
-    //@todo: archive board by id
-  };
-
   const renderTasks = useMemo(() => {
     return tasks.map((task: ITask) => {
-      const { id } = task;
+      const { id: taskId } = task;
 
       return (
         <li
-          key={id}
+          key={taskId}
           id={DragAndDropVariant.TASK}
           draggable
-          onDragStart={() => handleDragTaskStart(id)}
+          onDragStart={() => handleDragTaskStart(taskId)}
           className='board__item'>
           <Task task={task} />
         </li>
       );
     });
-  }, [tasks, handleTask, boards]);
+  }, [tasks, boards]);
 
   return (
     <li
@@ -154,11 +139,8 @@ const Board: React.FC<Props & IBoard> = ({
       onDragEnd={() => handleDragEnd()}
       onDragOver={(e: React.DragEvent<HTMLLIElement>) => handleDragOver(e)}
       onDrop={(e: React.DragEvent<HTMLLIElement>) => handleDrop(e)}>
-      <div
-        className={`board${currentBoard === id ? ' board--selected' : ''}`}>
-        <BoardMenu
-          deleteBoard={deleteBoard}
-          id={id} />
+      <div className={`board${selectedBoard === id ? ' board--selected' : ''}`}>
+        <BoardMenu board={board} />
         <div
           className='board__header'
           draggable
@@ -207,7 +189,7 @@ const Board: React.FC<Props & IBoard> = ({
           )}
         </div>
         <div className='board__footer'>
-          <FormAddTask handleTask={handleTask} />
+          <FormAddTask board={board} />
         </div>
       </div>
     </li>
